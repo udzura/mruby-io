@@ -43,10 +43,9 @@ static int
 mrb_stat0(mrb_state *mrb, mrb_value obj, struct stat *st, int do_lstat)
 {
   mrb_value tmp;
-  mrb_value io_klass, str_klass;
+  mrb_value io_klass;
 
   io_klass  = mrb_obj_value(mrb_class_get(mrb, "IO"));
-  str_klass = mrb_obj_value(mrb_class_get(mrb, "String"));
 
   tmp = mrb_funcall(mrb, obj, "is_a?", 1, io_klass);
   if (mrb_test(tmp)) {
@@ -61,8 +60,8 @@ mrb_stat0(mrb_state *mrb, mrb_value obj, struct stat *st, int do_lstat)
     return -1;
   }
 
-  tmp = mrb_funcall(mrb, obj, "is_a?", 1, str_klass);
-  if (mrb_test(tmp)) {
+  /* Direct use of mrb_string_p to work well with mruby-thread */
+  if (mrb_string_p(obj)) {
     if (do_lstat) {
       return LSTAT(mrb_str_to_cstr(mrb, obj), st);
     } else {

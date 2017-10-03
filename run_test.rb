@@ -20,6 +20,8 @@ MRuby::Build.new do |conf|
   conf.gembox 'default'
 
   conf.gem :git => 'https://github.com/iij/mruby-env.git'
+  conf.gem :git => 'https://github.com/udzura/mruby-thread.git'
+  conf.cc.defines += %w(MRB_THREAD_COPY_VALUES)
   conf.enable_test
 
   conf.gem File.expand_path(File.dirname(__FILE__))
