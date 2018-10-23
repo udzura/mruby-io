@@ -1,7 +1,9 @@
 MRuby::Gem::Specification.new('mruby-io') do |spec|
   spec.license = 'MIT'
   spec.authors = ['Uchio Kondo', 'Internet Initiative Japan Inc.']
-  spec.add_dependency 'mruby-metaprog', core: 'mruby-metaprog'
+  if Dir.exist?(File.join(MRUBY_ROOT, "mrbgems", "mruby-metaprog"))
+    spec.add_dependency 'mruby-metaprog', core: 'mruby-metaprog'
+  end
 
   spec.cc.include_paths << "#{build.root}/src"
   
